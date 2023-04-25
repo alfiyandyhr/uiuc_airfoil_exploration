@@ -1,0 +1,13 @@
+LOAD processed_coordinates/dsma523a.dat
+dsma523a.dat
+PANE
+OPER
+Visc 1000000.0
+Mach 0.0
+PACC
+polar_data/dsma523a.dat
+
+Iter 100
+ASeq 0 10 0.5
+
+quit
