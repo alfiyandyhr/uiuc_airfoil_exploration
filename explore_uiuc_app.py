@@ -12,28 +12,16 @@ import plotly.graph_objects as go
 df = pd.read_csv('summary/summary_all.csv')
 available_indicators = ['CL', 'CD', 'CDp', 'CM', 'Top_Xtr', 'Bot_Xtr', 'L_by_D']
 
-with open('names_list/airfoil_names.txt', 'r') as f:
-    names_list = f.readlines()
-with open('names_list/problematic_airfoil.txt', 'r') as f:
-    problematic_list = f.readlines()
-with open('names_list/not_converged.txt', 'r') as f:
-    empty_list = f.readlines()
-
-for i in range(len(names_list)):
-    names_list[i] = names_list[i][:-1]
-
-for i in range(len(problematic_list)):
-    problematic_list[i] = problematic_list[i][:-1]
-    
-for i in range(len(empty_list)):
-    empty_list[i] = empty_list[i][:-1]
-
 # List of airfoils with successful analysis
-done_list = list(set(names_list) - set(problematic_list) - set(empty_list))
+with open('names_list/converged_airfoils.txt', 'r') as f:
+    converged_airfoil_list = f.readlines()
+
+for i in range(len(converged_airfoil_list)):
+    converged_airfoil_list[i] = converged_airfoil_list[i][:-1]
 
 # Importing airfoil coordinates
 coord_list = {}
-for idx, name in enumerate(done_list):
+for idx, name in enumerate(converged_airfoil_list):
     coord_list[name] = np.genfromtxt(f'processed_coordinates/{name}')
 
 # Instantiating Dash
@@ -128,7 +116,7 @@ app.layout = html.Div([
                         style={'text-align': 'center', 'margin-top': '20px'}),
                 dcc.Dropdown(
                     id='crossfilter-airfoil-candidates',
-                    options=[{'label': i, 'value': i} for i in done_list],
+                    options=[{'label': i, 'value': i} for i in converged_airfoil_list],
                     value='e1233.dat'
                 ),
                 dcc.Graph(id='airfoil-plot',
