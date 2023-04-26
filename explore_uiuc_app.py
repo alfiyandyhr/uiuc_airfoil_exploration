@@ -101,7 +101,7 @@ app.layout = html.Div([
     html.Div([
         dcc.Graph(
             id='crossfilter-indicator-scatter',
-            clickData={'points': [{'customdata': 'e1233.dat'}]}
+            clickData={'points': [{'customdata': 'uag8814320.dat'}]}
         )
     ], style={'width': '60%', 'display': 'block', 'margin': 'auto'}),
 
@@ -117,7 +117,7 @@ app.layout = html.Div([
                 dcc.Dropdown(
                     id='crossfilter-airfoil-candidates',
                     options=[{'label': i, 'value': i} for i in converged_airfoil_list],
-                    value='e1233.dat'
+                    value='uag8814320.dat'
                 ),
                 dcc.Graph(id='airfoil-plot',
                           style={'margin-top': '120px'}),
@@ -175,6 +175,23 @@ def update_graph(airfoil_candidate_name,
                 'symbol': 'x'
             },
             name='Selected Candidate'
+        )
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=dff[dff['Indicator Name'] == xaxis_column_name][dff['Airfoil Name'] == 'ls421mod.dat']['Value'],
+            y=dff[dff['Indicator Name'] == yaxis_column_name][dff['Airfoil Name'] == 'ls421mod.dat']['Value'],
+            text='ls421mod.dat',
+            customdata=['ls421mod.dat'],
+            mode='markers',
+            marker={
+                'size': 25,
+                'opacity': 1.0,
+                'color': 'red',
+                'symbol': 'circle'
+            },
+            name='LS421Mod (Mk-5)'
         )
     )
     
